@@ -43,7 +43,7 @@ nav{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.88);backdrop-f
 nav .wrap{display:flex;align-items:center;justify-content:space-between;height:66px}
 .logo{display:flex;align-items:center;gap:10px;font-weight:800;font-size:1.15rem}
 .logo-mark{width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,var(--blue),#22c55e);display:grid;place-items:center;color:#fff;font-size:.8rem;font-weight:800}
-.links{display:flex;gap:24px;font-size:.92rem;font-weight:500;color:var(--ink2)}
+.links{display:flex;align-items:center;gap:24px;font-size:.92rem;font-weight:500;color:var(--ink2)}
 .links a:hover{color:var(--blue)}
 .menu-btn{display:none;background:none;border:0;font-size:1.5rem;cursor:pointer;color:var(--ink)}
 @media(max-width:900px){
@@ -192,10 +192,11 @@ footer .copy{border-top:1px solid #1e293b;padding-top:20px;color:#64748b;font-si
 
 <nav>
   <div class="wrap">
-    <a href="#top" class="logo"><span class="logo-mark">SMS</span>SellMyStuff</a>
+    <a href="#top" class="logo"><svg width="36" height="36" viewBox="0 0 48 48" aria-hidden="true"><defs><linearGradient id="smsG" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#2563eb"/><stop offset="1" stop-color="#22c55e"/></linearGradient></defs><rect width="48" height="48" rx="13" fill="url(#smsG)"/><path d="M15 19h18l-1.8 17.2a2 2 0 0 1-2 1.8H18.8a2 2 0 0 1-2-1.8z" fill="#fff"/><path d="M19 19v-2.5a5 5 0 0 1 10 0V19" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round"/><path d="M20 29.5l2.8 2.8 5.4-5.6" fill="none" stroke="#2563eb" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"/></svg>SellMyStuff</a>
     <div class="links" id="links">
       <a href="#problem">Problem</a><a href="#how">How it works</a><a href="#demo">Try demo</a>
       <a href="#compare">Compare</a><a href="#market">Market</a><a href="#business">Business</a><a href="#team">Team</a>
+      <a href="login.html" class="btn btn-p" style="padding:8px 18px;color:#fff">Log in</a>
     </div>
     <button class="menu-btn" aria-label="Menu" onclick="document.getElementById('links').classList.toggle('open')">☰</button>
   </div>
@@ -210,7 +211,7 @@ footer .copy{border-top:1px solid #1e293b;padding-top:20px;color:#64748b;font-si
       <p class="lead">SellMyStuff is a verified peer-to-peer re-commerce marketplace. AI scores every item 1–10, stores it in a Digital Product Passport, and escrow protects every payment for 24 hours.</p>
       <div class="cta">
         <a href="#demo" class="btn btn-p">Try the AI scan →</a>
-        <a href="#how" class="btn btn-o">How it works</a>
+        <a href="login.html" class="btn btn-o">Sign up free</a>
       </div>
       <div class="hero-stats">
         <div><strong>1–10</strong>AI condition score</div>
