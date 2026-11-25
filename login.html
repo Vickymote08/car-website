@@ -199,7 +199,7 @@ label{display:block;font-size:.85rem;font-weight:600;color:var(--ink2);margin:14
         <div class="ck">✓</div>
         <h2 id="doneTitle">You're in!</h2>
         <p class="sub">Taking you to verified listings near you…</p>
-        <a href="index.html" class="submit" style="text-decoration:none">Continue to SellMyStuff →</a>
+        <a href="browse.html" class="submit" style="text-decoration:none">Continue to SellMyStuff →</a>
       </div>
     </div>
   </main>
@@ -252,7 +252,7 @@ function loading(fn){const b=$('#submit');b.disabled=true;b.innerHTML='<span cla
 function finish(){
   $('#doneTitle').textContent=tab==='signup'?'Account created! 🎉':"You're in! 👋";
   show($('#formWrap'),false);show($('#doneWrap'),true);
-  setTimeout(()=>location.href='index.html',2500);
+  setTimeout(()=>location.href='browse.html',2500);
 }
 $$('.sbtn').forEach(b=>b.onclick=()=>{b.innerHTML='<span class="spin" style="border-color:#cbd5e1;border-top-color:#2563eb"></span> Connecting…';setTimeout(finish,900)});
 
