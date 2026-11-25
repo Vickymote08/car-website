@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sell an item — SellMyStuff</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="app.css">
+<style>
+.shell{max-width:760px;margin:0 auto;padding:28px 16px 20px}
+h1{font-size:clamp(1.5rem,3vw,2rem);font-weight:800;letter-spacing:-.02em}
+.sub{color:var(--muted);margin-top:4px}
+.prog{display:flex;gap:8px;margin:24px 0}
+.prog div{flex:1}
+.prog i{display:block;height:6px;border-radius:6px;background:var(--line);transition:.3s}
+.prog span{display:block;font-size:.75rem;font-weight:600;color:var(--muted);margin-top:6px}
+.prog .on i{background:var(--blue)}.prog .on span{color:var(--blue)}
+.prog .done i{background:var(--green)}.prog .done span{color:var(--green)}
+@media(max-width:520px){.prog span{display:none}}
+.pane{padding:26px}
+.pane h2{font-size:1.2rem;margin-bottom:4px}
+.pane .hint{color:var(--muted);font-size:.9rem;margin-bottom:16px}
+.drop{border:2px dashed #cbd5e1;border-radius:16px;padding:34px 16px;text-align:center;cursor:pointer;transition:.15s;background:var(--bg2)}
+.drop:hover,.drop.over{border-color:var(--blue);background:var(--blue-l)}
+.drop b{color:var(--blue)}
+.photos{display:grid;grid-template-columns:repeat(auto-fill,minmax(110px,1fr));gap:10px;margin-top:14px}
+.ph{aspect-ratio:1;border-radius:12px;background-size:cover;background-position:center;position:relative;border:1px solid var(--line)}
+.ph button{position:absolute;top:6px;right:6px;width:24px;height:24px;border-radius:50%;border:0;background:rgba(15,23,42,.7);color:#fff;cursor:pointer;font-size:.75rem}
+.ph .cover{position:absolute;bottom:6px;left:6px}
+.tips{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:8px;margin-top:14px}
+.tips div{font-size:.82rem;color:var(--ink2);background:var(--bg2);padding:10px 12px;border-radius:10px}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:0 14px}
+@media(max-width:560px){.two{grid-template-columns:1fr}}
+.ai{display:inline-flex;align-items:center;gap:6px;border:1px solid #c7d2fe;background:var(--indigo-l);color:#3730a3;font:600 .8rem Inter,sans-serif;padding:6px 12px;border-radius:999px;cursor:pointer;margin-top:8px}
+.nav{display:flex;justify-content:space-between;gap:10px;margin-top:22px}
+
+/* scan */
+.vf{height:260px;border-radius:16px;background:#0f172a;position:relative;overflow:hidden;display:grid;place-items:center;background-size:cover;background-position:center}
+.vf::after{content:"";position:absolute;inset:0;background:rgba(15,23,42,.35)}
+.vf .frame{position:absolute;inset:26px;border:2px dashed rgba(255,255,255,.45);border-radius:12px;z-index:1}
+.vf .c{position:absolute;width:24px;height:24px;border-color:#22c55e;border-style:solid;z-index:1}
+.c1{top:20px;left:20px;border-width:3px 0 0 3px}.c2{top:20px;right:20px;border-width:3px 3px 0 0}.c3{bottom:20px;left:20px;border-width:0 0 3px 3px}.c4{bottom:20px;right:20px;border-width:0 3px 3px 0}
+.line{position:absolute;left:26px;right:26px;height:3px;background:linear-gradient(90deg,transparent,#22c55e,transparent);z-index:2;display:none;box-shadow:0 0 12px #22c55e}
+.scanning .line{display:block;animation:scan 1.2s linear infinite}
+@keyframes scan{0%{top:26px}50%{top:calc(100% - 29px)}100%{top:26px}}
+.vf .em{font-size:5rem;z-index:1}
+.box{position:absolute;border:2px solid #f59e0b;border-radius:6px;z-index:2;animation:pop .3s ease}
+.box span{position:absolute;top:-22px;left:-2px;background:#f59e0b;color:#111;font-size:.68rem;font-weight:700;padding:2px 6px;border-radius:4px;white-space:nowrap}
+@keyframes pop{from{transform:scale(.6);opacity:0}}
+.status{font-size:.88rem;color:var(--muted);margin-top:12px;min-height:22px;text-align:center}
+.decl{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:8px;margin-top:6px}
+.decl label{display:flex;gap:8px;align-items:center;padding:9px 11px;border:1px solid var(--line);border-radius:10px;font-size:.86rem;cursor:pointer}
+.decl input{accent-color:var(--blue)}
+.result{display:flex;gap:18px;align-items:center;padding:16px;border:1.5px solid var(--blue);border-radius:14px;margin-top:16px}
+.ring{width:92px;height:92px;border-radius:50%;display:grid;place-items:center;flex-shrink:0}
+.ring>div{width:74px;height:74px;border-radius:50%;background:#fff;display:grid;place-items:center;font-weight:800;font-size:1.6rem}
+
+/* price */
+.sugg{background:linear-gradient(135deg,var(--indigo-l),var(--green-l));border-radius:14px;padding:18px;margin-bottom:6px}
+.sugg b{font-size:1.4rem}
+.pin{position:relative}
+.pin span{position:absolute;left:14px;top:50%;transform:translateY(-50%);font-weight:700;color:var(--ink2)}
+.pin input{padding-left:32px;font-size:1.3rem;font-weight:800}
+.range{width:100%;accent-color:var(--blue);margin-top:12px}
+.kv{display:flex;justify-content:space-between;font-size:.92rem;padding:9px 0;border-bottom:1px dashed var(--line)}
+.kv:last-child{border:0}.kv span{color:var(--muted)}
+.vs{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px}
+.vs div{padding:14px;border-radius:12px;text-align:center;font-size:.82rem}
+.vs b{display:block;font-size:1.15rem}
+
+/* preview */
+.prev{display:grid;grid-template-columns:220px 1fr;gap:20px;align-items:start}
+@media(max-width:560px){.prev{grid-template-columns:1fr}}
+.pcard{overflow:hidden}
+.pthumb{height:160px;background-size:cover;background-position:center;display:grid;place-items:center;font-size:3.5rem;position:relative}
+.pthumb .tag{position:absolute;top:10px;left:10px}.pthumb .score{position:absolute;top:10px;right:10px}
+.success{text-align:center;padding:30px 10px}
+.success .big{width:84px;height:84px;border-radius:50%;background:var(--green-l);display:grid;place-items:center;font-size:2.4rem;margin:0 auto 14px;animation:pop .4s ease}
+</style>
+</head>
+<body>
+<div id="top"></div>
+
+<div class="shell">
+  <h1>Sell an item</h1>
+  <p class="sub">List it in 4 steps. Our AI checks its condition, so buyers trust you and pay a fair price.</p>
+
+  <div class="prog" id="prog">
+    <div><i></i><span>1 · Photos</span></div>
+    <div><i></i><span>2 · Details</span></div>
+    <div><i></i><span>3 · AI scan</span></div>
+    <div><i></i><span>4 · Price &amp; publish</span></div>
+  </div>
+
+  <!-- STEP 1 -->
+  <section class="card pane" data-step="1">
+    <h2>📸 Add photos</h2>
+    <p class="hint">Add up to 6 clear photos. The first one is the cover.</p>
+    <label class="drop" id="drop" for="file">
+      <div style="font-size:2.2rem">🖼️</div>
+      <p style="margin-top:6px"><b>Click to upload</b> or drag photos here</p>
+      <p style="font-size:.8rem;color:var(--muted);margin-top:4px">JPG or PNG · photos stay on your device</p>
+    </label>
+    <input type="file" id="file" accept="image/*" multiple hidden>
+    <div class="photos" id="photos"></div>
+    <div class="tips">
+      <div>☀️ Use daylight, no flash</div><div>🔄 Show all sides</div><div>🔍 Close-up of any marks</div>
+    </div>
+    <div class="nav"><button class="btn btn-o" id="skip1" type="button">Skip (use icon)</button><button class="btn btn-p" data-next>Next →</button></div>
+  </section>
+
+  <!-- STEP 2 -->
+  <section class="card pane hide" data-step="2">
+    <h2>📝 Item details</h2>
+    <p class="hint">Tell buyers what you're selling.</p>
+    <div class="two">
+      <div><label class="l" for="cat">Category</label><select id="cat" class="in"></select></div>
+      <div><label class="l" for="age">Age</label><select id="age" class="in">
+        <option value="0.5">Under 6 months</option><option value="1" selected>About 1 year</option><option value="2">About 2 years</option>
+        <option value="3">About 3 years</option><option value="5">4–5 years</option><option value="7">More than 5 years</option></select></div>
+    </div>
+    <label class="l" for="title">Title</label>
+    <input id="title" class="in" maxlength="70" placeholder="e.g. Dell Inspiron 15 laptop, i5, 8 GB RAM">
+    <label class="l" for="desc">Description</label>
+    <textarea id="desc" class="in" maxlength="400" placeholder="Condition, what's included, reason for selling…"></textarea>
+    <button class="ai" id="aiWrite" type="button">✨ Write it for me with AI</button>
+    <div class="two">
+      <div><label class="l" for="orig">Original price (approx.)</label><div class="pin"><span>₹</span><input id="orig" type="number" class="in" min="0" placeholder="45000" style="padding-left:28px"></div></div>
+      <div><label class="l" for="area">Pickup area</label><select id="area" class="in">
+        <option>MIT-ADT Campus</option><option>Loni Kalbhor</option><option>Hadapsar</option><option>Kothrud</option><option>Viman Nagar</option><option>Baner</option><option>Wakad</option><option>Pimpri</option></select></div>
+    </div>
+    <p class="err" id="err2" style="color:var(--red);font-size:.84rem;margin-top:10px;display:none">Please add a title (at least 5 characters) and the original price.</p>
+    <div class="nav"><button class="btn btn-o" data-back>← Back</button><button class="btn btn-p" data-next>Next →</button></div>
+  </section>
+
+  <!-- STEP 3 -->
+  <section class="card pane hide" data-step="3">
+    <h2>🔍 AI condition scan</h2>
+    <p class="hint">Computer vision (OpenCV + YOLOv8) checks your photos for scratches, dents and wear, then gives a 1–10 score.</p>
+    <label class="l" style="margin-top:0">First, honestly declare any issues you know about:</label>
+    <div class="decl" id="decl">
+      <label><input type="checkbox" value="1.1"> Minor scratches</label>
+      <label><input type="checkbox" value="1.8"> Dents</label>
+      <label><input type="checkbox" value="0.9"> Surface wear</label>
+      <label><input type="checkbox" value="2.4"> Cracks</label>
+      <label><input type="checkbox" value="0.7"> Missing accessory</label>
+      <label><input type="checkbox" value="1.5"> Repair history</label>
+    </div>
+    <div class="vf" id="vf" style="margin-top:16px"><div class="frame"></div><i class="c c1"></i><i class="c c2"></i><i class="c c3"></i><i class="c c4"></i><div class="line"></div><div class="em" id="vfEm"></div></div>
+    <div class="status" id="status">Ready to scan.</div>
+    <div id="scanOut"></div>
+    <div class="nav"><button class="btn btn-o" data-back>← Back</button><button class="btn btn-p" id="scanBtn">Start scan</button></div>
+  </section>
+
+  <!-- STEP 4 -->
+  <section class="card pane hide" data-step="4">
+    <h2>💰 Set your price</h2>
+    <p class="hint">Based on the category, age and AI score.</p>
+    <div class="sugg"><span style="font-size:.85rem;color:var(--ink2)">✨ AI suggested fair price</span><br><b id="sugg"></b></div>
+    <label class="l" for="price">Your price</label>
+    <div class="pin"><span>₹</span><input id="price" type="number" class="in" min="1"></div>
+    <input type="range" id="pr" class="range">
+    <div id="priceNote" style="font-size:.82rem;margin-top:4px"></div>
+    <div style="margin-top:14px">
+      <div class="kv"><span>Listing price</span><b id="k1"></b></div>
+      <div class="kv"><span>SellMyStuff fee (2.5%)</span><b id="k2"></b></div>
+      <div class="kv"><span>You receive</span><b id="k3" style="color:var(--green);font-size:1.1rem"></b></div>
+    </div>
+    <div class="vs">
+      <div style="background:var(--red-l)"><span style="color:var(--muted)">A buyback hub would offer</span><b id="bb" style="color:var(--red)"></b></div>
+      <div style="background:var(--green-l)"><span style="color:var(--muted)">You earn extra with SMS</span><b id="extra" style="color:var(--green)"></b></div>
+    </div>
+    <h3 style="font-size:1rem;margin:22px 0 10px">Preview</h3>
+    <div class="prev">
+      <div class="card pcard"><div class="pthumb" id="pThumb"></div><div style="padding:12px"><b id="pPrice" style="font-size:1.1rem"></b><div id="pTitle" style="font-size:.88rem;color:var(--ink2);font-weight:600"></div><div id="pMeta" style="font-size:.76rem;color:var(--muted);margin-top:4px"></div></div></div>
+      <div style="font-size:.88rem;color:var(--ink2)">
+        <p>✓ Your listing gets a <b>Digital Product Passport</b> with the AI score.</p>
+        <p style="margin-top:8px">✓ Buyers within 15 km see it first.</p>
+        <p style="margin-top:8px">✓ The buyer's money is held in <b>escrow</b>. You get paid when they confirm, so there are no payment scams.</p>
+      </div>
+    </div>
+    <div class="nav"><button class="btn btn-o" data-back>← Back</button><button class="btn btn-g" id="publish">🚀 Publish listing</button></div>
+  </section>
+
+  <section class="card pane hide" data-step="5">
+    <div class="success">
+      <div class="big">🎉</div>
+      <h2 style="font-size:1.4rem">Your item is live!</h2>
+      <p style="color:var(--muted);margin:6px auto 20px;max-width:420px">It's now visible to verified buyers near <b id="sArea"></b> with its passport score of <b id="sScore"></b>.</p>
+      <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap">
+        <a class="btn btn-p" id="viewIt" href="browse.html">View my listing</a>
+        <a class="btn btn-o" href="sell.html">Sell another item</a>
+      </div>
+    </div>
+  </section>
+</div>
+<p class="proto">Prototype for a class project. Your listing is saved only in this browser, and the AI scan is simulated.</p>
+
+<script src="app.js"></script>
+<script>
+document.getElementById('top').outerHTML = topbar('sell');
+const $ = s => document.querySelector(s), $$ = s => [...document.querySelectorAll(s)];
+let step = 1, photos = [], score = null, defects = [];
+
+$('#cat').innerHTML = Object.entries(CATS).map(([k,c]) => `<option value="${k}">${c.emoji} ${c.name}</option>`).join('');
+const baseOrig = {electronics:45000,phones:25000,books:1200,furniture:6000,cycles:9000,audio:5000,appliances:15000,fashion:3500};
+$('#cat').onchange = () => { if(!$('#orig').value) $('#orig').placeholder = baseOrig[$('#cat').value]; };
+
+function go(n){
+  step = n;
+  $$('[data-step]').forEach(s => s.classList.toggle('hide', +s.dataset.step !== n));
+  $$('#prog > div').forEach((d,i) => { d.className = i+1 < n ? 'done' : i+1 === n ? 'on' : ''; });
+  if(n === 3) prepScan();
+  if(n === 4) prepPrice();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+document.addEventListener('click', e => {
+  if(e.target.closest('[data-back]')) go(step - 1);
+  if(e.target.closest('[data-next]')){
+    if(step === 2){
+      const ok = $('#title').value.trim().length >= 5 && +$('#orig').value > 0;
+      $('#err2').style.display = ok ? 'none' : 'block'; if(!ok) return;
+    }
+    go(step + 1);
+  }
+});
+
+// STEP 1: photos (shrunk on-device so they fit in browser storage)
+function addFiles(files){
+  [...files].filter(f => f.type.startsWith('image/')).slice(0, 6 - photos.length).forEach(f => {
+    const r = new FileReader();
+    r.onload = () => { const img = new Image(); img.onload = () => {
+      const k = Math.min(1, 480 / Math.max(img.width, img.height)), c = document.createElement('canvas');
+      c.width = img.width * k; c.height = img.height * k; c.getContext('2d').drawImage(img, 0, 0, c.width, c.height);
+      photos.push(c.toDataURL('image/jpeg', .72)); drawPhotos(); }; img.src = r.result; };
+    r.readAsDataURL(f);
+  });
+}
+function drawPhotos(){
+  $('#photos').innerHTML = photos.map((p,i) => `<div class="ph" style="background-image:url(${p})"><button data-rm="${i}" aria-label="Remove">✕</button>${i===0?'<span class="tag tag-b cover">Cover</span>':''}</div>`).join('');
+}
+$('#file').onchange = e => { addFiles(e.target.files); e.target.value = ''; };
+$('#photos').onclick = e => { const b = e.target.closest('[data-rm]'); if(b){ photos.splice(+b.dataset.rm, 1); drawPhotos(); } };
+const drop = $('#drop');
+['dragenter','dragover'].forEach(t => drop.addEventListener(t, e => { e.preventDefault(); drop.classList.add('over'); }));
+['dragleave','drop'].forEach(t => drop.addEventListener(t, e => { e.preventDefault(); drop.classList.remove('over'); }));
+drop.addEventListener('drop', e => addFiles(e.dataTransfer.files));
+$('#skip1').onclick = () => { photos = []; drawPhotos(); go(2); };
+
+// STEP 2: AI writer
+$('#aiWrite').onclick = function(){
+  const c = CATS[$('#cat').value], ageT = $('#age').selectedOptions[0].text.toLowerCase();
+  const t = $('#title').value.trim() || `${c.name} item in good condition`;
+  if(!$('#title').value.trim()) $('#title').value = t;
+  this.innerHTML = '<span class="spin" style="border-color:#c7d2fe;border-top-color:#3730a3"></span> Writing…';
+  setTimeout(() => {
+    $('#desc').value = `Selling my ${t.toLowerCase()}, used for ${ageT}. Well maintained and fully working. Condition is verified by SellMyStuff's AI scan (see the Digital Product Passport). Pickup near ${$('#area').value}, or meet at a safe public spot. Payment through SellMyStuff escrow only.`;
+    this.innerHTML = '✨ Rewrite with AI';
+  }, 900);
+};
+
+// STEP 3: scan
+function prepScan(){
+  const vf = $('#vf'), c = CATS[$('#cat').value];
+  vf.style.backgroundImage = photos[0] ? `url(${photos[0]})` : 'none';
+  $('#vfEm').textContent = photos[0] ? '' : c.emoji;
+  $$('.box').forEach(b => b.remove());
+  if(score === null){ $('#scanOut').innerHTML = ''; $('#status').textContent = 'Ready to scan.'; $('#scanBtn').textContent = 'Start scan'; }
+}
+$('#scanBtn').onclick = function(){
+  if(score !== null && this.dataset.ok){ go(4); return; }
+  const vf = $('#vf'); $$('.box').forEach(b => b.remove());
+  this.disabled = true; vf.classList.add('scanning'); $('#scanOut').innerHTML = '';
+  const checked = $$('#decl input:checked');
+  defects = checked.map(i => i.parentElement.textContent.trim());
+  const msgs = ['Aligning 4-point frame…','Detecting edges with OpenCV…','Running YOLOv8 defect model…','Measuring wear…','Calculating score…'];
+  msgs.forEach((m,i) => setTimeout(() => $('#status').textContent = m, i * 480));
+  checked.forEach((c,i) => setTimeout(() => {
+    const b = document.createElement('div'); b.className = 'box';
+    const x = 15 + Math.random() * 50, y = 20 + Math.random() * 45;
+    b.style.cssText = `left:${x}%;top:${y}%;width:${50+Math.random()*50}px;height:${30+Math.random()*30}px`;
+    b.innerHTML = `<span>${defects[i]}</span>`; vf.appendChild(b);
+  }, 700 + i * 350));
+  setTimeout(() => {
+    vf.classList.remove('scanning'); this.disabled = false;
+    const age = +$('#age').value;
+    let s = 9.8 - age * 0.32 - checked.reduce((a,c) => a + +c.value, 0) - (photos.length ? 0 : 0.3) + (Math.random() * .4 - .2);
+    score = Math.round(Math.max(1, Math.min(10, s)) * 10) / 10;
+    $('#status').innerHTML = `✓ Scan complete. ${defects.length ? defects.length + ' issue(s) mapped' : 'No visible defects found'}.`;
+    $('#scanOut').innerHTML = `<div class="result">
+      <div class="ring" style="background:conic-gradient(${scoreColor(score)} ${score*10}%,#e2e8f0 0)"><div>${score.toFixed(1)}</div></div>
+      <div><div style="font-weight:800;font-size:1.15rem;color:${scoreColor(score)}">${scoreGrade(score)} condition</div>
+      <div style="font-size:.85rem;color:var(--muted)">Saved to your Digital Product Passport.<br>Declared issues: ${defects.length ? esc(defects.join(', ')) : 'none'}</div></div></div>`;
+    this.textContent = 'Next →'; this.dataset.ok = 1;
+  }, 2600);
+};
+$('#decl').onchange = () => { score = null; delete $('#scanBtn').dataset.ok; prepScan(); };
+
+// STEP 4: price
+let fair = 0;
+function prepPrice(){
+  const orig = +$('#orig').value, age = +$('#age').value;
+  fair = Math.round(orig * Math.max(.15, 1 - age * .13) * (0.45 + score * .055) / 50) * 50;
+  $('#sugg').textContent = `${inr(fair * .93)} – ${inr(fair * 1.07)}`;
+  const pr = $('#pr'); pr.min = Math.round(fair * .5); pr.max = Math.round(fair * 1.5); pr.step = 50;
+  if(!$('#price').value) $('#price').value = fair;
+  pr.value = $('#price').value; calc();
+}
+function calc(){
+  const p = +$('#price').value || 0, fee = p * .025;
+  $('#k1').textContent = inr(p); $('#k2').textContent = '− ' + inr(fee); $('#k3').textContent = inr(p - fee);
+  const bb = fair * .6; $('#bb').textContent = inr(bb); $('#extra').textContent = '+' + inr(Math.max(0, p - fee - bb));
+  const n = $('#priceNote');
+  if(p > fair * 1.15){ n.style.color = 'var(--amber)'; n.textContent = '⚠️ Above the fair range. It may take longer to sell.'; }
+  else if(p < fair * .85){ n.style.color = 'var(--amber)'; n.textContent = '💡 Below the fair range. You could ask for more.'; }
+  else { n.style.color = 'var(--green)'; n.textContent = '✓ Great price. Items in this range sell fastest.'; }
+  const c = CATS[$('#cat').value];
+  $('#pThumb').style.cssText = photos[0] ? `background-image:url(${photos[0]})` : `background:${c.bg}`;
+  $('#pThumb').innerHTML = (photos[0] ? '' : c.emoji) + '<span class="tag tag-g">✓ Verified</span>' + scoreChip(score);
+  $('#pPrice').textContent = inr(p); $('#pTitle').textContent = $('#title').value;
+  $('#pMeta').textContent = `📍 ${$('#area').value} · Today`;
+}
+$('#price').oninput = () => { $('#pr').value = $('#price').value; calc(); };
+$('#pr').oninput = () => { $('#price').value = $('#pr').value; calc(); };
+
+$('#publish').onclick = function(){
+  const p = +$('#price').value; if(!(p > 0)) return toast('Please enter a price');
+  this.disabled = true; this.innerHTML = '<span class="spin"></span> Publishing…';
+  const c = $('#cat').value, id = 'm' + Date.now().toString(36);
+  const item = { id, mine:true, title:$('#title').value.trim(), cat:c, emoji:CATS[c].emoji, price:p, score,
+    km: $('#area').value === 'MIT-ADT Campus' ? 0.5 : +(1 + Math.random() * 8).toFixed(1), area:$('#area').value,
+    seller:'You', rating:5.0, age:$('#age').selectedOptions[0].text, defects, desc:$('#desc').value.trim() || 'No description added.', days:0, photo:photos[0] || null };
+  setTimeout(() => {
+    const list = myListings(); list.unshift(item);
+    store.set('sms_my_listings', list);
+    if(!myListings().some(i => i.id === id) && item.photo){ item.photo = null; list[0] = item; store.set('sms_my_listings', list); }
+    $('#sArea').textContent = item.area; $('#sScore').textContent = score.toFixed(1) + '/10';
+    $('#viewIt').href = 'browse.html?item=' + id;
+    go(5); $$('#prog > div').forEach(d => d.className = 'done');
+  }, 1000);
+};
+
+go(1);
+</script>
+</body>
+</html>

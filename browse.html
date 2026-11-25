@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Browse — SellMyStuff</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="app.css">
+<style>
+.hero{background:linear-gradient(135deg,#1e40af,#2563eb 60%,#16a34a 140%);color:#fff;padding:30px 0 70px}
+.hero h1{font-size:clamp(1.5rem,3vw,2.1rem);font-weight:800;letter-spacing:-.02em}
+.hero p{opacity:.85;margin-top:4px}
+.loc{display:inline-flex;gap:6px;align-items:center;background:rgba(255,255,255,.15);padding:5px 12px;border-radius:999px;font-size:.82rem;font-weight:600;margin-bottom:12px}
+.search{margin-top:-44px;position:relative;z-index:2}
+.sbar{display:flex;gap:10px;background:#fff;padding:10px;border-radius:16px;box-shadow:0 12px 30px -10px rgba(15,23,42,.25);border:1px solid var(--line)}
+.sbar input{flex:1;border:0;font:500 1rem Inter,sans-serif;padding:8px 10px;min-width:0;color:var(--ink)}
+.sbar input:focus{outline:none}
+.sbar select{border:1px solid var(--line);border-radius:10px;padding:0 10px;font:600 .88rem Inter,sans-serif;color:var(--ink2);background:#fff}
+.cats{display:flex;gap:8px;overflow-x:auto;padding:18px 0 4px;scrollbar-width:none}
+.cats::-webkit-scrollbar{display:none}
+.chip{flex-shrink:0;border:1px solid var(--line);background:#fff;padding:8px 14px;border-radius:999px;font-weight:600;font-size:.86rem;color:var(--ink2);cursor:pointer;display:flex;gap:6px;align-items:center}
+.chip.on{background:var(--ink);color:#fff;border-color:var(--ink)}
+.layout{display:grid;grid-template-columns:250px 1fr;gap:24px;padding:18px 0 40px}
+@media(max-width:860px){.layout{grid-template-columns:1fr}}
+.filters{padding:20px;height:fit-content;position:sticky;top:80px}
+@media(max-width:860px){.filters{position:static}}
+.filters h3{font-size:.95rem;margin-bottom:4px}
+.range{width:100%;accent-color:var(--blue)}
+.rv{display:flex;justify-content:space-between;font-size:.8rem;color:var(--muted)}
+.rv b{color:var(--blue)}
+.ck{display:flex;gap:8px;align-items:center;font-size:.88rem;margin-top:10px;cursor:pointer}
+.ck input{accent-color:var(--blue);width:16px;height:16px}
+.count{font-size:.9rem;color:var(--muted);margin-bottom:14px}
+.count b{color:var(--ink)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:16px}
+.item{overflow:hidden;cursor:pointer;transition:transform .15s,box-shadow .15s;display:flex;flex-direction:column}
+.item:hover{transform:translateY(-3px);box-shadow:0 14px 30px -14px rgba(15,23,42,.3)}
+.thumb{height:150px;display:grid;place-items:center;font-size:3.6rem;position:relative;background-size:cover;background-position:center}
+.thumb .tag{position:absolute;top:10px;left:10px}
+.thumb .score{position:absolute;top:10px;right:10px}
+.thumb .mine{position:absolute;top:auto;bottom:10px;left:10px}
+.ib{padding:14px;display:flex;flex-direction:column;gap:4px;flex:1}
+.ib .p{font-weight:800;font-size:1.15rem}
+.ib .t{font-weight:600;font-size:.92rem;color:var(--ink2);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.ib .m{font-size:.78rem;color:var(--muted);margin-top:auto;padding-top:6px;display:flex;justify-content:space-between}
+.empty{text-align:center;padding:60px 20px;color:var(--muted)}
+
+/* detail */
+.det{display:grid;grid-template-columns:1fr 1fr}
+@media(max-width:720px){.det{grid-template-columns:1fr}}
+.det .img{min-height:300px;display:grid;place-items:center;font-size:7rem;background-size:cover;background-position:center;border-radius:20px 0 0 20px}
+@media(max-width:720px){.det .img{border-radius:20px 20px 0 0;min-height:220px}}
+.det .body{padding:26px}
+.det h2{font-size:1.35rem;line-height:1.25;margin:8px 0 4px}
+.det .price{font-size:1.8rem;font-weight:800}
+.dpp{border:1.5px solid var(--blue);border-radius:14px;margin:16px 0;overflow:hidden}
+.dpp-h{background:var(--blue);color:#fff;padding:9px 14px;font-size:.78rem;font-weight:700;display:flex;justify-content:space-between}
+.dpp-b{padding:12px 14px;display:flex;gap:14px;align-items:center}
+.ring{width:70px;height:70px;border-radius:50%;display:grid;place-items:center;flex-shrink:0}
+.ring>div{width:56px;height:56px;border-radius:50%;background:#fff;display:grid;place-items:center;font-weight:800;font-size:1.2rem}
+.kv{display:flex;justify-content:space-between;font-size:.86rem;padding:5px 0;border-bottom:1px dashed var(--line)}
+.kv:last-child{border:0}.kv span{color:var(--muted)}
+.seller{display:flex;gap:12px;align-items:center;padding:12px;background:var(--bg2);border-radius:12px;margin-bottom:14px}
+.av{width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,#7c3aed,#2563eb);color:#fff;display:grid;place-items:center;font-weight:700}
+.acts{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+
+/* checkout */
+.co{padding:28px;max-width:520px;margin:0 auto}
+.steps{display:flex;gap:6px;margin:18px 0}
+.steps div{flex:1;height:5px;border-radius:5px;background:var(--line)}
+.steps div.on{background:var(--blue)}
+.sum{display:flex;gap:14px;align-items:center;padding:14px;border:1px solid var(--line);border-radius:14px}
+.sum .e{width:56px;height:56px;border-radius:12px;display:grid;place-items:center;font-size:1.8rem;flex-shrink:0;background-size:cover;background-position:center}
+.pay{display:grid;gap:8px;margin-top:14px}
+.pay label{display:flex;gap:10px;align-items:center;padding:12px;border:1px solid var(--line);border-radius:12px;cursor:pointer;font-weight:600;font-size:.92rem}
+.pay input{accent-color:var(--blue)}
+.co.escrow{text-align:center;padding:28px}
+.clock{font-size:2.6rem;font-weight:800;font-variant-numeric:tabular-nums;letter-spacing:.02em;color:var(--blue)}
+.tl{text-align:left;margin:18px 0}
+.tl div{display:flex;gap:10px;align-items:flex-start;padding:7px 0;font-size:.9rem}
+.tl i{width:22px;height:22px;border-radius:50%;flex-shrink:0;display:grid;place-items:center;font-style:normal;font-size:.7rem;font-weight:800;background:var(--line);color:var(--muted)}
+.tl .done i{background:var(--green);color:#fff}
+.tl .now i{background:var(--blue);color:#fff}
+</style>
+</head>
+<body>
+<div id="top"></div>
+
+<section class="hero">
+  <div class="wrap">
+    <div class="loc">📍 Pune · MIT-ADT Campus</div>
+    <h1>Verified items near you</h1>
+    <p>Every listing has an AI condition score and 24-hour escrow protection.</p>
+  </div>
+</section>
+
+<div class="wrap">
+  <div class="search">
+    <div class="sbar">
+      <span style="display:grid;place-items:center;padding-left:6px">🔍</span>
+      <input id="q" placeholder="Search laptops, books, cycles…" aria-label="Search">
+      <select id="sort" aria-label="Sort">
+        <option value="near">Nearest</option>
+        <option value="new">Newest</option>
+        <option value="score">Best condition</option>
+        <option value="low">Price: low to high</option>
+        <option value="high">Price: high to low</option>
+      </select>
+    </div>
+  </div>
+  <div class="cats" id="cats"></div>
+
+  <div class="layout">
+    <aside class="card filters">
+      <h3>Filters</h3>
+      <label class="l" for="dist">Distance</label>
+      <input type="range" id="dist" class="range" min="1" max="15" value="15">
+      <div class="rv"><span>1 km</span><b id="distV">15 km</b></div>
+      <label class="l" for="minS">Minimum condition score</label>
+      <input type="range" id="minS" class="range" min="1" max="10" step="0.5" value="1">
+      <div class="rv"><span>Any</span><b id="minSV">1.0+</b></div>
+      <label class="l" for="maxP">Max price</label>
+      <input type="number" id="maxP" class="in" placeholder="No limit" min="0">
+      <label class="ck"><input type="checkbox" id="noDef"> No defects detected</label>
+      <label class="ck"><input type="checkbox" id="mine"> Only my listings</label>
+      <button class="btn btn-o" style="width:100%;margin-top:16px" id="reset">Reset filters</button>
+    </aside>
+    <main>
+      <div class="count" id="count"></div>
+      <div class="grid" id="grid"></div>
+    </main>
+  </div>
+</div>
+<p class="proto">Prototype for a class project. Listings are sample data and payments are simulated.</p>
+
+<div class="modal" id="modal"><div class="sheet" id="sheet"></div></div>
+
+<script src="app.js"></script>
+<script>
+document.getElementById('top').outerHTML = topbar('browse');
+const $ = s => document.querySelector(s);
+let cat = 'all', items = allListings(), timer;
+
+$('#cats').innerHTML = `<button class="chip on" data-c="all">✨ All</button>` +
+  Object.entries(CATS).map(([k,c]) => `<button class="chip" data-c="${k}">${c.emoji} ${c.name}</button>`).join('');
+$('#cats').onclick = e => { const b = e.target.closest('.chip'); if(!b) return;
+  cat = b.dataset.c; document.querySelectorAll('.chip').forEach(c => c.classList.toggle('on', c === b)); draw(); };
+
+const thumbStyle = it => it.photo ? `background-image:url(${it.photo})` : `background:${(CATS[it.cat]||CATS.electronics).bg}`;
+const thumbEmoji = it => it.photo ? '' : it.emoji;
+
+function draw(){
+  const q = $('#q').value.trim().toLowerCase(), d = +$('#dist').value, ms = +$('#minS').value,
+        mp = +$('#maxP').value || Infinity, nd = $('#noDef').checked, mine = $('#mine').checked;
+  $('#distV').textContent = d + ' km'; $('#minSV').textContent = ms.toFixed(1) + '+';
+  let list = items.filter(it => (cat === 'all' || it.cat === cat) && it.km <= d && it.score >= ms && it.price <= mp
+    && (!nd || !it.defects.length) && (!mine || it.mine)
+    && (!q || (it.title + ' ' + it.area + ' ' + (CATS[it.cat]||{}).name).toLowerCase().includes(q)));
+  const s = $('#sort').value;
+  list.sort((a,b) => s==='near' ? a.km-b.km : s==='new' ? a.days-b.days : s==='score' ? b.score-a.score : s==='low' ? a.price-b.price : b.price-a.price);
+  $('#count').innerHTML = `<b>${list.length}</b> verified item${list.length===1?'':'s'} within ${d} km`;
+  $('#grid').innerHTML = list.length ? list.map(it => `
+    <article class="card item" data-id="${it.id}" tabindex="0">
+      <div class="thumb" style="${thumbStyle(it)}">${thumbEmoji(it)}
+        <span class="tag tag-g">✓ Verified</span>${scoreChip(it.score)}
+        ${it.mine ? '<span class="tag tag-b mine">Your listing</span>' : ''}</div>
+      <div class="ib">
+        <div class="p">${inr(it.price)}</div>
+        <div class="t">${esc(it.title)}</div>
+        <div class="m"><span>📍 ${esc(it.area)} · ${it.km} km</span><span>${it.days===0?'Today':it.days+'d ago'}</span></div>
+      </div>
+    </article>`).join('') : `<div class="empty" style="grid-column:1/-1">😕<br><br>No items match these filters.<br><a href="sell.html" style="color:var(--blue);font-weight:600">Sell something instead →</a></div>`;
+}
+['#q','#dist','#minS','#maxP','#noDef','#mine','#sort'].forEach(s => $(s).addEventListener('input', draw));
+$('#reset').onclick = () => { $('#q').value=''; $('#dist').value=15; $('#minS').value=1; $('#maxP').value=''; $('#noDef').checked=false; $('#mine').checked=false; draw(); };
+
+const open = html => { $('#sheet').innerHTML = '<button class="x" aria-label="Close" onclick="closeM()">✕</button>' + html; $('#modal').classList.add('open'); };
+window.closeM = () => { $('#modal').classList.remove('open'); clearInterval(timer); };
+$('#modal').onclick = e => { if(e.target.id === 'modal') closeM(); };
+document.addEventListener('keydown', e => { if(e.key==='Escape') closeM(); if(e.key==='Enter' && e.target.classList.contains('item')) e.target.click(); });
+
+$('#grid').onclick = e => { const c = e.target.closest('.item'); if(c) detail(items.find(i => i.id === c.dataset.id)); };
+
+function detail(it){
+  const pct = it.score * 10, fee = it.price * 0.025;
+  open(`<div class="det">
+    <div class="img" style="${thumbStyle(it)}">${thumbEmoji(it)}</div>
+    <div class="body">
+      <span class="tag tag-g">✓ Verified listing</span> <span class="tag tag-b">${(CATS[it.cat]||{}).name||''}</span>
+      <h2>${esc(it.title)}</h2>
+      <div class="price">${inr(it.price)}</div>
+      <div class="dpp">
+        <div class="dpp-h"><span>🪪 DIGITAL PRODUCT PASSPORT</span><span>DPP-${it.id.toUpperCase()}</span></div>
+        <div class="dpp-b">
+          <div class="ring" style="background:conic-gradient(${scoreColor(it.score)} ${pct}%,#e2e8f0 0)"><div>${it.score.toFixed(1)}</div></div>
+          <div style="flex:1">
+            <div class="kv"><span>Grade</span><b style="color:${scoreColor(it.score)}">${scoreGrade(it.score)}</b></div>
+            <div class="kv"><span>Age</span><b>${esc(it.age)}</b></div>
+            <div class="kv"><span>Defects</span><b>${it.defects.length ? esc(it.defects.join(', ')) : 'None found'}</b></div>
+          </div>
+        </div>
+      </div>
+      <p style="font-size:.92rem;color:var(--ink2);margin-bottom:14px">${esc(it.desc)}</p>
+      <div class="seller"><div class="av">${esc(it.seller[0])}</div><div style="flex:1"><b style="font-size:.92rem">${esc(it.seller)}</b> <span class="tag tag-g">ID verified</span><div style="font-size:.8rem;color:var(--muted)">⭐ ${it.rating} · 📍 ${esc(it.area)}, ${it.km} km away</div></div></div>
+      <div class="acts">
+        <button class="btn btn-o" onclick="toast('💬 Chat opened with ${esc(it.seller)} (prototype)')">💬 Chat</button>
+        <button class="btn btn-p" onclick="checkout('${it.id}')">🔒 Buy safely</button>
+      </div>
+      <p style="font-size:.76rem;color:var(--muted);margin-top:10px;text-align:center">Your money stays in escrow for 24 h of inspection. Platform fee ${inr(fee)} is paid by the seller.</p>
+    </div></div>`);
+}
+
+window.checkout = id => {
+  const it = items.find(i => i.id === id);
+  open(`<div class="co">
+    <h2 style="font-size:1.3rem">Secure checkout</h2>
+    <div class="steps"><div class="on"></div><div></div><div></div></div>
+    <div class="sum"><div class="e" style="${thumbStyle(it)}">${thumbEmoji(it)}</div><div style="flex:1"><b style="font-size:.92rem">${esc(it.title)}</b><div style="font-size:.8rem;color:var(--muted)">Seller: ${esc(it.seller)} · ${it.km} km</div></div><b>${inr(it.price)}</b></div>
+    <div class="kv" style="margin-top:14px"><span>Item price</span><b>${inr(it.price)}</b></div>
+    <div class="kv"><span>Buyer fee</span><b style="color:var(--green)">₹0</b></div>
+    <div class="kv"><span>You pay (held in escrow)</span><b>${inr(it.price)}</b></div>
+    <div class="pay">
+      <label><input type="radio" name="pm" checked> 📲 UPI (GPay, PhonePe, Paytm)</label>
+      <label><input type="radio" name="pm"> 💳 Debit / credit card</label>
+      <label><input type="radio" name="pm"> 🏦 Net banking</label>
+    </div>
+    <button class="btn btn-p" style="width:100%;margin-top:16px" id="payBtn">Pay ${inr(it.price)} into escrow</button>
+    <p style="font-size:.76rem;color:var(--muted);margin-top:10px;text-align:center">🔒 Secured by Razorpay escrow (simulated). Never pay sellers in advance or by scanning their QR code.</p>
+  </div>`);
+  $('#payBtn').onclick = function(){ this.disabled = true; this.innerHTML = '<span class="spin"></span> Processing…'; setTimeout(() => escrow(it), 1200); };
+};
+
+function escrow(it){
+  let s = 24 * 3600 - 1;
+  open(`<div class="co escrow">
+    <div style="font-size:2.6rem">🔒</div>
+    <h2 style="font-size:1.3rem;margin-top:6px">${inr(it.price)} is safe in escrow</h2>
+    <div class="steps"><div class="on"></div><div class="on"></div><div></div></div>
+    <p style="color:var(--muted);font-size:.9rem">Meet the seller, inspect the item against its passport. Time left to inspect:</p>
+    <div class="clock" id="clock">24:00:00</div>
+    <div class="tl">
+      <div class="done"><i>✓</i><span><b>Payment held</b><br><small style="color:var(--muted)">Seller can't access the money yet</small></span></div>
+      <div class="now"><i>2</i><span><b>Inspect within 24 h</b><br><small style="color:var(--muted)">Compare the item with its ${it.score.toFixed(1)}/10 DPP score</small></span></div>
+      <div><i>3</i><span><b>Release or dispute</b><br><small style="color:var(--muted)">Money goes to the seller only when you confirm</small></span></div>
+    </div>
+    <div class="acts">
+      <button class="btn btn-o" id="disp">⚠️ Raise dispute</button>
+      <button class="btn btn-g" id="ok">✓ Item is as described</button>
+    </div>
+  </div>`);
+  const tick = () => { const h = Math.floor(s/3600), m = Math.floor(s%3600/60), x = s%60;
+    const c = $('#clock'); if(c) c.textContent = [h,m,x].map(n => String(n).padStart(2,'0')).join(':'); s--; };
+  tick(); timer = setInterval(tick, 1000);
+  $('#ok').onclick = () => done(it, true);
+  $('#disp').onclick = () => done(it, false);
+}
+
+function done(it, ok){
+  clearInterval(timer);
+  open(`<div class="co escrow">
+    <div style="width:76px;height:76px;border-radius:50%;margin:0 auto 12px;display:grid;place-items:center;font-size:2.2rem;background:${ok?'var(--green-l)':'var(--amber-l)'}">${ok?'🎉':'🛡️'}</div>
+    <h2 style="font-size:1.3rem">${ok ? 'Deal complete!' : 'Dispute raised'}</h2>
+    <div class="steps"><div class="on"></div><div class="on"></div><div class="on"></div></div>
+    <p style="color:var(--muted);font-size:.92rem">${ok
+      ? `${inr(it.price*0.975)} released to ${esc(it.seller)} (after the 2.5% fee). Thanks for buying pre-owned! ♻️`
+      : `Your ${inr(it.price)} stays locked in escrow while our team reviews the item against its Digital Product Passport.`}</p>
+    <button class="btn btn-p" style="margin-top:18px" onclick="closeM()">Back to browsing</button>
+  </div>`);
+}
+
+draw();
+const deep = new URLSearchParams(location.search).get('item');
+if(deep){ const it = items.find(i => i.id === deep); if(it) detail(it); }
+</script>
+</body>
+</html>

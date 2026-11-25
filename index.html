@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SellMyStuff — Verified Re-Commerce</title>
+<meta name="description" content="SellMyStuff (SMS): a verified peer-to-peer re-commerce marketplace with AI condition scoring, Digital Product Passports and 24-hour escrow.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --blue:#2563eb;--blue-d:#1d4ed8;--blue-l:#eff6ff;--indigo-l:#e0e7ff;
+  --green:#16a34a;--green-l:#f0fdf4;--red:#dc2626;--red-l:#fef2f2;--amber:#d97706;
+  --ink:#0f172a;--ink2:#334155;--muted:#64748b;--line:#e2e8f0;--bg:#ffffff;--bg2:#f8fafc;--card:#ffffff;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,sans-serif;color:var(--ink);background:var(--bg);line-height:1.6;-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+.wrap{max-width:1140px;margin:0 auto;padding:0 20px}
+section{padding:88px 0}
+section.alt{background:var(--bg2)}
+.eyebrow{display:inline-block;font-size:.78rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--blue);margin-bottom:10px}
+h1,h2,h3{line-height:1.2;letter-spacing:-.02em}
+h2{font-size:clamp(1.8rem,3.5vw,2.5rem);font-weight:800;margin-bottom:14px}
+.lead{color:var(--muted);font-size:1.08rem;max-width:680px}
+.center{text-align:center}.center .lead{margin:0 auto}
+.grid{display:grid;gap:20px}
+.g2{grid-template-columns:repeat(auto-fit,minmax(300px,1fr))}
+.g3{grid-template-columns:repeat(auto-fit,minmax(260px,1fr))}
+.g4{grid-template-columns:repeat(auto-fit,minmax(220px,1fr))}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:26px;transition:transform .2s,box-shadow .2s}
+.card:hover{transform:translateY(-3px);box-shadow:0 12px 30px -12px rgba(15,23,42,.18)}
+.card h3{font-size:1.12rem;margin-bottom:8px}
+.card p{color:var(--ink2);font-size:.96rem}
+.icon{width:46px;height:46px;border-radius:12px;display:grid;place-items:center;font-size:1.4rem;margin-bottom:14px;background:var(--blue-l)}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:13px 24px;border-radius:999px;font-weight:600;font-size:.98rem;border:2px solid transparent;cursor:pointer;transition:.2s;font-family:inherit}
+.btn-p{background:var(--blue);color:#fff}.btn-p:hover{background:var(--blue-d)}
+.btn-o{border-color:var(--line);background:#fff;color:var(--ink)}.btn-o:hover{border-color:var(--blue);color:var(--blue)}
+
+/* nav */
+nav{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.88);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+nav .wrap{display:flex;align-items:center;justify-content:space-between;height:66px}
+.logo{display:flex;align-items:center;gap:10px;font-weight:800;font-size:1.15rem}
+.logo-mark{width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,var(--blue),#22c55e);display:grid;place-items:center;color:#fff;font-size:.8rem;font-weight:800}
+.links{display:flex;align-items:center;gap:24px;font-size:.92rem;font-weight:500;color:var(--ink2)}
+.links a:hover{color:var(--blue)}
+.menu-btn{display:none;background:none;border:0;font-size:1.5rem;cursor:pointer;color:var(--ink)}
+@media(max-width:900px){
+  .links{display:none;position:absolute;top:66px;left:0;right:0;background:#fff;flex-direction:column;padding:16px 20px;gap:14px;border-bottom:1px solid var(--line)}
+  .links.open{display:flex}.menu-btn{display:block}
+}
+
+/* hero */
+.hero{padding:80px 0 90px;background:radial-gradient(1000px 500px at 85% -10%,var(--indigo-l),transparent 60%),radial-gradient(800px 400px at -10% 110%,var(--green-l),transparent 60%)}
+.hero .wrap{display:grid;grid-template-columns:1.15fr .85fr;gap:50px;align-items:center}
+@media(max-width:900px){.hero .wrap{grid-template-columns:1fr}}
+.pill{display:inline-flex;gap:8px;align-items:center;background:#fff;border:1px solid var(--line);padding:6px 14px;border-radius:999px;font-size:.84rem;font-weight:500;color:var(--ink2);margin-bottom:22px}
+.pill b{color:var(--green)}
+.hero h1{font-size:clamp(2.3rem,5.4vw,3.8rem);font-weight:800;margin-bottom:18px}
+.hero h1 span{background:linear-gradient(90deg,var(--blue),#16a34a);-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero .lead{margin-bottom:30px;font-size:1.15rem}
+.cta{display:flex;gap:12px;flex-wrap:wrap}
+.hero-stats{display:flex;gap:30px;margin-top:38px;flex-wrap:wrap}
+.hero-stats div{font-size:.85rem;color:var(--muted)}
+.hero-stats strong{display:block;font-size:1.6rem;color:var(--ink);font-weight:800}
+
+/* phone mock */
+.phone{width:290px;max-width:100%;margin:0 auto;background:var(--ink);border-radius:40px;padding:12px;box-shadow:0 40px 80px -30px rgba(37,99,235,.5)}
+.screen{background:#fff;border-radius:30px;overflow:hidden;padding:18px 16px 20px}
+.scr-top{display:flex;justify-content:space-between;font-size:.72rem;color:var(--muted);margin-bottom:12px}
+.item-img{height:150px;border-radius:16px;background:linear-gradient(135deg,#e0e7ff,#f0fdf4);display:grid;place-items:center;font-size:4rem;position:relative}
+.badge{position:absolute;top:10px;right:10px;background:var(--green);color:#fff;font-size:.68rem;font-weight:700;padding:4px 9px;border-radius:999px}
+.item-t{font-weight:700;margin:12px 0 2px}
+.item-m{font-size:.76rem;color:var(--muted)}
+.score-row{display:flex;justify-content:space-between;align-items:center;margin:14px 0;padding:10px 12px;background:var(--bg2);border-radius:12px}
+.score-big{font-size:1.5rem;font-weight:800;color:var(--blue)}
+.escrow{font-size:.74rem;background:var(--blue-l);color:var(--blue-d);padding:9px 12px;border-radius:10px;font-weight:600}
+.buy{margin-top:10px;width:100%;background:var(--blue);color:#fff;border:0;border-radius:12px;padding:11px;font-weight:700;font-family:inherit}
+
+/* problem */
+.prob .card{border-left:4px solid var(--red)}
+.big-num{font-size:2.6rem;font-weight:800;color:var(--red);line-height:1}
+
+/* steps */
+.steps{counter-reset:s}
+.step{position:relative;padding-top:56px}
+.step::before{counter-increment:s;content:counter(s);position:absolute;top:22px;left:26px;width:30px;height:30px;border-radius:50%;background:var(--blue);color:#fff;display:grid;place-items:center;font-weight:700;font-size:.9rem}
+.tools{margin-top:12px;display:flex;flex-wrap:wrap;gap:6px}
+.tag{font-size:.74rem;font-weight:600;background:var(--blue-l);color:var(--blue-d);padding:4px 10px;border-radius:999px}
+.tag.g{background:var(--green-l);color:#15803d}
+
+/* demo */
+.demo{display:grid;grid-template-columns:1fr 1fr;gap:28px;align-items:start}
+@media(max-width:860px){.demo{grid-template-columns:1fr}}
+.panel{background:#fff;border:1px solid var(--line);border-radius:20px;padding:26px}
+label{display:block;font-size:.85rem;font-weight:600;margin:14px 0 6px;color:var(--ink2)}
+select,input[type=number]{width:100%;padding:11px 12px;border:1px solid var(--line);border-radius:10px;font-family:inherit;font-size:.95rem;background:#fff;color:var(--ink)}
+.checks{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.checks label{display:flex;gap:8px;align-items:center;font-weight:500;margin:0;padding:9px 10px;border:1px solid var(--line);border-radius:10px;cursor:pointer;font-size:.86rem}
+.viewfinder{height:190px;border-radius:16px;background:#0f172a;position:relative;overflow:hidden;display:grid;place-items:center;color:#94a3b8;font-size:.9rem;margin-bottom:16px}
+.viewfinder .frame{position:absolute;inset:22px;border:2px dashed rgba(148,163,184,.6);border-radius:12px}
+.viewfinder .corner{position:absolute;width:20px;height:20px;border-color:#22c55e;border-style:solid}
+.c1{top:18px;left:18px;border-width:3px 0 0 3px}.c2{top:18px;right:18px;border-width:3px 3px 0 0}
+.c3{bottom:18px;left:18px;border-width:0 0 3px 3px}.c4{bottom:18px;right:18px;border-width:0 3px 3px 0}
+.scanline{position:absolute;left:22px;right:22px;height:3px;background:linear-gradient(90deg,transparent,#22c55e,transparent);top:22px;display:none}
+.scanning .scanline{display:block;animation:scan 1.1s linear infinite}
+@keyframes scan{0%{top:22px}50%{top:calc(100% - 25px)}100%{top:22px}}
+.vf-emoji{font-size:4rem;position:relative;z-index:1}
+.dpp{border:2px solid var(--blue);border-radius:18px;overflow:hidden}
+.dpp-h{background:var(--blue);color:#fff;padding:14px 18px;display:flex;justify-content:space-between;align-items:center}
+.dpp-h small{opacity:.8;font-size:.72rem;display:block}
+.dpp-b{padding:18px}
+.gauge{display:flex;align-items:center;gap:18px;margin-bottom:14px}
+.ring{width:96px;height:96px;border-radius:50%;display:grid;place-items:center;flex-shrink:0}
+.ring>div{width:76px;height:76px;border-radius:50%;background:#fff;display:grid;place-items:center;font-size:1.7rem;font-weight:800}
+.ring>div small{font-size:.7rem;color:var(--muted);font-weight:500;display:block;margin-top:-10px}
+.kv{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px dashed var(--line);font-size:.9rem}
+.kv:last-child{border:0}.kv span{color:var(--muted)}
+.empty{color:var(--muted);text-align:center;padding:50px 10px}
+
+/* table */
+.tbl-wrap{overflow-x:auto;border-radius:16px;border:1px solid var(--line);background:#fff}
+table{width:100%;border-collapse:collapse;min-width:640px;font-size:.93rem}
+th,td{padding:15px 18px;text-align:left;border-bottom:1px solid var(--line)}
+th{background:var(--bg2);font-weight:700;font-size:.86rem}
+th.us,td.us{background:var(--green-l);font-weight:600;color:#14532d}
+tr:last-child td{border-bottom:0}
+td:first-child{font-weight:600}
+
+/* market */
+.tam{display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:40px}
+.circles{position:relative;width:340px;height:340px;max-width:100%}
+.circ{position:absolute;border-radius:50%;left:50%;bottom:0;transform:translateX(-50%);display:flex;justify-content:center;padding-top:16px;text-align:center;font-size:.8rem;font-weight:600}
+.circ b{display:block;font-size:1.2rem}
+.tam1{width:340px;height:340px;background:var(--indigo-l);color:#3730a3}
+.tam2{width:230px;height:230px;background:#c7d2fe;color:#312e81}
+.tam3{width:120px;height:120px;background:var(--blue);color:#fff}
+.legend .kv{gap:24px}
+
+.bars{display:flex;align-items:flex-end;gap:22px;height:240px;padding:10px 0;border-bottom:2px solid var(--line)}
+.bar{flex:1;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;gap:8px;height:100%}
+.bar i{display:block;width:100%;max-width:90px;border-radius:10px 10px 0 0;background:linear-gradient(180deg,var(--blue),#60a5fa);transition:height 1s ease}
+.bar b{font-size:.95rem}
+.bar-l{display:flex;gap:22px;margin-top:8px}
+.bar-l span{flex:1;text-align:center;font-size:.82rem;color:var(--muted)}
+
+/* persona */
+.persona{display:grid;grid-template-columns:280px 1fr;gap:28px}
+@media(max-width:760px){.persona{grid-template-columns:1fr}}
+.avatar{width:96px;height:96px;border-radius:50%;background:linear-gradient(135deg,var(--blue),#22c55e);display:grid;place-items:center;color:#fff;font-size:2rem;font-weight:800;margin-bottom:14px}
+ul.clean{list-style:none}
+ul.clean li{padding:6px 0 6px 26px;position:relative;color:var(--ink2);font-size:.95rem}
+ul.clean li::before{content:"✓";position:absolute;left:0;color:var(--green);font-weight:800}
+
+/* timeline */
+.timeline{position:relative;margin-top:20px}
+.timeline::before{content:"";position:absolute;left:15px;top:0;bottom:0;width:2px;background:var(--line)}
+.tl{position:relative;padding:0 0 30px 52px}
+.tl::before{content:"";position:absolute;left:6px;top:4px;width:20px;height:20px;border-radius:50%;background:#fff;border:4px solid var(--blue)}
+.tl .when{font-size:.8rem;font-weight:700;color:var(--blue);text-transform:uppercase;letter-spacing:.06em}
+.tl h3{font-size:1.08rem;margin:2px 0 4px}
+.tl p{color:var(--ink2);font-size:.94rem}
+
+/* team */
+.member{text-align:center;padding:22px 16px}
+.member .av{width:62px;height:62px;border-radius:50%;margin:0 auto 12px;display:grid;place-items:center;font-weight:800;color:#fff;font-size:1.1rem}
+.member h3{font-size:.98rem;margin-bottom:2px}
+.member p{font-size:.82rem;color:var(--blue);font-weight:600}
+
+/* stat strip */
+.strip{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;margin-top:34px}
+.strip div{background:#fff;border:1px solid var(--line);border-radius:14px;padding:20px}
+.strip strong{display:block;font-size:1.6rem;font-weight:800;color:var(--blue)}
+.strip span{font-size:.86rem;color:var(--muted)}
+
+/* footer */
+.cta-band{background:linear-gradient(135deg,var(--blue),#1e40af);color:#fff;border-radius:24px;padding:56px 30px;text-align:center}
+.cta-band h2{color:#fff}.cta-band p{opacity:.85;max-width:600px;margin:0 auto 26px}
+.cta-band .btn-p{background:#fff;color:var(--blue)}
+footer{background:var(--ink);color:#cbd5e1;padding:50px 0 30px;font-size:.9rem}
+footer .grid{grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:30px;margin-bottom:30px}
+footer h4{color:#fff;margin-bottom:10px;font-size:.95rem}
+footer .copy{border-top:1px solid #1e293b;padding-top:20px;color:#64748b;font-size:.82rem;text-align:center}
+
+.reveal{opacity:0;transform:translateY(24px);transition:opacity .7s ease,transform .7s ease}
+.reveal.in{opacity:1;transform:none}
+@media(prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none}html{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="wrap">
+    <a href="#top" class="logo"><svg width="36" height="36" viewBox="0 0 48 48" aria-hidden="true"><defs><linearGradient id="smsG" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#2563eb"/><stop offset="1" stop-color="#22c55e"/></linearGradient></defs><rect width="48" height="48" rx="13" fill="url(#smsG)"/><path d="M15 19h18l-1.8 17.2a2 2 0 0 1-2 1.8H18.8a2 2 0 0 1-2-1.8z" fill="#fff"/><path d="M19 19v-2.5a5 5 0 0 1 10 0V19" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round"/><path d="M20 29.5l2.8 2.8 5.4-5.6" fill="none" stroke="#2563eb" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"/></svg>SellMyStuff</a>
+    <div class="links" id="links">
+      <a href="browse.html">Browse</a><a href="sell.html">Sell</a><a href="#how">How it works</a><a href="#demo">Try demo</a>
+      <a href="#market">Market</a><a href="#business">Business</a><a href="#team">Team</a>
+      <a href="login.html" class="btn btn-p" style="padding:8px 18px;color:#fff">Log in</a>
+    </div>
+    <button class="menu-btn" aria-label="Menu" onclick="document.getElementById('links').classList.toggle('open')">☰</button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<header class="hero" id="top">
+  <div class="wrap">
+    <div>
+      <div class="pill">♻️ <b>SDG 12</b> · Responsible Consumption</div>
+      <h1>Give your stuff a <span>new story.</span></h1>
+      <p class="lead">SellMyStuff is a verified peer-to-peer re-commerce marketplace. AI scores every item 1–10, stores it in a Digital Product Passport, and escrow protects every payment for 24 hours.</p>
+      <div class="cta">
+        <a href="#demo" class="btn btn-p">Try the AI scan →</a>
+        <a href="browse.html" class="btn btn-o">Browse items</a>
+      </div>
+      <div class="hero-stats">
+        <div><strong>1–10</strong>AI condition score</div>
+        <div><strong>24h</strong>Escrow inspection</div>
+        <div><strong>2.5%</strong>Flat platform fee</div>
+        <div><strong>15 km</strong>Local radius</div>
+      </div>
+    </div>
+    <div class="phone" aria-hidden="true">
+      <div class="screen">
+        <div class="scr-top"><span>📍 Within 15 km · Pune</span><span>9:41</span></div>
+        <div class="item-img">💻<span class="badge">✓ VERIFIED</span></div>
+        <div class="item-t">Dell Inspiron 15 Laptop</div>
+        <div class="item-m">Kothrud · 3.2 km away · Seller ID verified</div>
+        <div class="score-row"><div><div class="item-m">DPP Condition Score</div><div class="score-big">8.6<small style="font-size:.8rem;color:var(--muted)">/10</small></div></div><div style="font-weight:800;font-size:1.1rem">₹28,500</div></div>
+        <div class="escrow">🔒 Payment held in escrow for 24 hrs of inspection</div>
+        <button class="buy">Buy safely</button>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- PROBLEM -->
+<section id="problem">
+  <div class="wrap">
+    <div class="center reveal">
+      <span class="eyebrow">The problem</span>
+      <h2>Buying second-hand runs on trust, and trust is broken</h2>
+      <p class="lead">India's $50B pre-owned market is full of unverified claims, hidden defects and fake items.</p>
+    </div>
+    <div class="grid g3 prob" style="margin-top:44px">
+      <div class="card reveal"><div class="big-num">70%+</div><h3 style="margin-top:12px">Buyers hesitate</h3><p>Severe information asymmetry: unverified seller claims, hidden defects and fake items scare buyers away.</p></div>
+      <div class="card reveal"><div class="big-num">20–30%</div><h3 style="margin-top:12px">"Lemon discount"</h3><p>Honest sellers lose value because buyers pre-emptively discount offers to cover defect risk.</p></div>
+      <div class="card reveal"><div class="big-num">30–50%</div><h3 style="margin-top:12px">Buyback deductions</h3><p>Buyback hubs mark items down heavily, while classifieds expose users to advance-payment and QR-code scams.</p></div>
+    </div>
+    <div class="card reveal" style="margin-top:20px;background:var(--green-l);border-color:#bbf7d0">
+      <h3>💚 Social need</h3>
+      <p>Students and budget-conscious households need affordable pre-owned goods but fear scams. Honest sellers lose value to defect-risk discounts. Everyone deserves a safe way to reuse.</p>
+    </div>
+  </div>
+</section>
+
+<!-- HOW -->
+<section class="alt" id="how">
+  <div class="wrap">
+    <div class="center reveal">
+      <span class="eyebrow">How it works</span>
+      <h2>From listing to a safe handover in 4 steps</h2>
+      <p class="lead">A Flutter + Node.js app that uses computer vision to verify every item before it's sold.</p>
+    </div>
+    <div class="grid g4 steps" style="margin-top:44px">
+      <div class="card step reveal"><h3>📸 List the item</h3><p>The seller snaps photos and adds category, price and location. AI suggests listing text and a fair price.</p><div class="tools"><span class="tag">Flutter</span><span class="tag">OpenAI API</span></div></div>
+      <div class="card step reveal"><h3>🔍 Scan &amp; verify</h3><p>A guided camera frame lets computer vision find scratches, dents and wear.</p><div class="tools"><span class="tag">OpenCV</span><span class="tag">YOLOv8</span></div></div>
+      <div class="card step reveal"><h3>🪪 Score &amp; passport</h3><p>The item gets a 1–10 condition score, saved in its Digital Product Passport (DPP).</p><div class="tools"><span class="tag">Node.js</span><span class="tag">PostgreSQL · AWS</span></div></div>
+      <div class="card step reveal"><h3>🔒 Discover &amp; pay</h3><p>Buyers find verified items within 15 km. Razorpay escrow holds the money for 24 hours of inspection.</p><div class="tools"><span class="tag">Google Maps</span><span class="tag">Razorpay</span></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- DEMO -->
+<section id="demo">
+  <div class="wrap">
+    <div class="center reveal">
+      <span class="eyebrow">Interactive demo</span>
+      <h2>Try the AI condition scanner</h2>
+      <p class="lead">A simulation of how SellMyStuff turns an item scan into a verified Digital Product Passport.</p>
+    </div>
+    <div class="demo" style="margin-top:44px">
+      <div class="panel reveal">
+        <div class="viewfinder" id="vf"><div class="frame"></div><i class="corner c1"></i><i class="corner c2"></i><i class="corner c3"></i><i class="corner c4"></i><div class="scanline"></div><div class="vf-emoji" id="vfEmoji">💻</div></div>
+        <label for="cat">Item category</label>
+        <select id="cat">
+          <option value="laptop|💻|45000">Laptop</option>
+          <option value="phone|📱|25000">Smartphone</option>
+          <option value="books|📚|1500">Textbooks</option>
+          <option value="furniture|🪑|6000">Furniture</option>
+          <option value="cycle|🚲|9000">Bicycle</option>
+          <option value="headphones|🎧|4000">Headphones</option>
+        </select>
+        <label for="age">Age of item (years)</label>
+        <input type="number" id="age" min="0" max="15" value="2">
+        <label>Visible issues the camera would detect</label>
+        <div class="checks">
+          <label><input type="checkbox" value="1.2" data-n="Minor scratches"> Minor scratches</label>
+          <label><input type="checkbox" value="2" data-n="Dents"> Dents</label>
+          <label><input type="checkbox" value="1" data-n="Surface wear"> Surface wear</label>
+          <label><input type="checkbox" value="2.5" data-n="Cracks"> Cracks</label>
+          <label><input type="checkbox" value="0.8" data-n="Missing accessory"> Missing accessory</label>
+          <label><input type="checkbox" value="1.5" data-n="Frame warping"> Frame warping</label>
+        </div>
+        <button class="btn btn-p" id="scanBtn" style="width:100%;justify-content:center;margin-top:20px">Scan &amp; generate passport</button>
+      </div>
+      <div class="panel reveal" id="out">
+        <div class="empty">🪪<br><br>Your Digital Product Passport will appear here after scanning.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WHY / COMPARE -->
+<section class="alt" id="compare">
+  <div class="wrap">
+    <div class="center reveal">
+      <span class="eyebrow">Why SellMyStuff</span>
+      <h2>Everything others leave out, in one marketplace</h2>
+      <p class="lead">OLX/Quikr leave verification to sellers and carry scam risk. Cashify buybacks mark down 30–50%.</p>
+    </div>
+    <div class="grid g4" style="margin:44px 0 30px">
+      <div class="card reveal"><div class="icon">🤖</div><h3>Verified score</h3><p>A 1–10 AI condition score on every listing.</p></div>
+      <div class="card reveal"><div class="icon">🔒</div><h3>Escrow protection</h3><p>24-hour Razorpay escrow protects every payment.</p></div>
+      <div class="card reveal"><div class="icon">💸</div><h3>Flat 2.5% fee</h3><p>Not 30–50% buyback markdowns. Sellers keep their price.</p></div>
+      <div class="card reveal"><div class="icon">📍</div><h3>Local &amp; social</h3><p>Deals within 15 km, with in-app chat.</p></div>
+    </div>
+    <div class="tbl-wrap reveal">
+      <table>
+        <thead><tr><th>Platform feature</th><th>OLX / Quikr</th><th>Cashify</th><th class="us">SellMyStuff (SMS)</th></tr></thead>
+        <tbody>
+          <tr><td>Business model</td><td>C2C classifieds</td><td>B2C buyback</td><td class="us">Verified C2C marketplace</td></tr>
+          <tr><td>Item verification</td><td>0% (self-reported)</td><td>100% manual tech check</td><td class="us">AI computer vision (DPP score)</td></tr>
+          <tr><td>Payment security</td><td>Unregulated (scam risk)</td><td>Direct cash / instant transfer</td><td class="us">24h Razorpay escrow lock</td></tr>
+          <tr><td>Seller margin loss</td><td>0% (high fraud rate)</td><td>30–50% markdown</td><td class="us">2.5% flat fee (direct price)</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- MARKET -->
+<section id="market">
+  <div class="wrap">
+    <div class="center reveal">
+      <span class="eyebrow">Market opportunity</span>
+      <h2>Riding India's circular-economy wave</h2>
+      <p class="lead">Drivers: high inflation, tight budgets, and Gen-Z and millennial focus on SDG 12.</p>
+    </div>
+    <div class="tam reveal" style="margin-top:44px">
+      <div class="circles">
+        <div class="circ tam1"><div>TAM<b>$50B</b></div></div>
+        <div class="circ tam2"><div>SAM<b>$12B</b></div></div>
+        <div class="circ tam3"><div>SOM<b>₹5.1 L</b></div></div>
+      </div>
+      <div class="legend" style="min-width:280px;max-width:420px;flex:1">
+        <div class="kv"><span>TAM</span><b>$50B · Indian pre-owned re-commerce, 2026</b></div>
+        <div class="kv"><span>SAM</span><b>$12B · Online multi-category C2C resale</b></div>
+        <div class="kv"><span>SOM</span><b>₹5.1 L · Campus &amp; tech-corridor outlay</b></div>
+      </div>
+    </div>
+    <div class="persona reveal" style="margin-top:70px">
+      <div class="card">
+        <div class="avatar">RS</div>
+        <h3>Rahul Sharma, 21</h3>
+        <p style="color:var(--blue);font-weight:600;font-size:.9rem;margin-bottom:10px">Engineering student @ MIT-ADT University, Pune</p>
+        <p>Buys laptops, textbooks and furniture. Sells old electronics. Wants a fair deal without the fear of getting scammed.</p>
+      </div>
+      <div class="grid g2">
+        <div class="card"><h3>👥 Demographic</h3><p>Ages 18–45: students, young professionals, households.</p></div>
+        <div class="card"><h3>🗺️ Geographic</h3><p>Pune &amp; PCMC: MIT-ADT, Hadapsar, Viman Nagar.</p></div>
+        <div class="card"><h3>🧠 Psychographic</h3><p>Value seekers, tech enthusiasts, circular-economy backers.</p></div>
+        <div class="card"><h3>🏢 Firmographic</h3><p>Promoted-ad sellers and B2B subscribers (Phase 4).</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BUSINESS -->
+<section class="alt" id="business">
+  <div class="wrap">
+    <div class="center reveal">
+      <span class="eyebrow">Business model &amp; financials</span>
+      <h2>Lean, capital-efficient, profitable from year 1</h2>
+    </div>
+    <div class="grid g3" style="margin-top:44px">
+      <div class="card reveal"><div class="icon">💰</div><h3>Platform fee</h3><p><b>2.5%</b> of item price per completed trade. Avg revenue ₹150 per ₹5,000 trade.</p></div>
+      <div class="card reveal"><div class="icon">🪪</div><h3>DPP scan</h3><p><b>₹49–₹99</b> per Digital Product Passport scan.</p></div>
+      <div class="card reveal"><div class="icon">🚀</div><h3>Funding need</h3><p><b>₹5.06 L</b> first year: ₹3.20 L build + ₹1.86 L operating. Debt : Equity to be decided.</p></div>
+    </div>
+    <div class="grid g2" style="margin-top:20px">
+      <div class="card reveal">
+        <h3>Projected GMV (Years 1–3)</h3>
+        <div class="bars" id="bars">
+          <div class="bar"><b>₹25 L</b><i data-h="4"></i></div>
+          <div class="bar"><b>₹1.8 Cr</b><i data-h="17"></i></div>
+          <div class="bar"><b>₹10.5 Cr</b><i data-h="100"></i></div>
+        </div>
+        <div class="bar-l"><span>Year 1 · Pilot</span><span>Year 2 · Regional</span><span>Year 3 · Scale</span></div>
+      </div>
+      <div class="card reveal">
+        <h3>3-year projections</h3>
+        <div class="tbl-wrap" style="border:0;margin-top:8px">
+          <table style="min-width:0;font-size:.86rem">
+            <thead><tr><th>Metric</th><th>Y1</th><th>Y2</th><th>Y3</th></tr></thead>
+            <tbody>
+              <tr><td>MAU</td><td>2,500</td><td>15,000</td><td>85,000</td></tr>
+              <tr><td>Revenue</td><td>₹1.88 L</td><td>₹13.5 L</td><td>₹78.75 L</td></tr>
+              <tr><td>OpEx</td><td>₹1.86 L</td><td>₹4.2 L</td><td>₹14.5 L</td></tr>
+              <tr><td>EBITDA</td><td style="color:var(--green)">+0.8%</td><td style="color:var(--green)">+68.8%</td><td style="color:var(--green)">+81.5%</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="card reveal" style="margin-top:20px">
+      <h3>📣 Market channels</h3>
+      <p><b>Online:</b> Flutter app (Android, iOS) and web app. <b>On-ground:</b> MIT-ADT campus pilot, then Pune/PCMC tech corridors.</p>
+    </div>
+  </div>
+</section>
+
+<!-- TECH -->
+<section id="tech">
+  <div class="wrap">
+    <div class="center reveal">
+      <span class="eyebrow">Technology · C-BOM</span>
+      <h2>Built on a proven, scalable stack</h2>
+    </div>
+    <div class="grid g4" style="margin-top:44px">
+      <div class="card reveal"><h3>📱 Apps</h3><p>Flutter mobile (Android + iOS) and Flutter Web, responsive.</p></div>
+      <div class="card reveal"><h3>⚙️ Backend</h3><p>Node.js REST APIs on AWS EC2 t3.small.</p></div>
+      <div class="card reveal"><h3>🗄️ Data</h3><p>PostgreSQL on AWS RDS, S3 (50 GB) + CloudFront CDN.</p></div>
+      <div class="card reveal"><h3>👁️ Vision AI</h3><p>OpenCV + YOLOv8 defect detection and 1–10 scoring.</p></div>
+      <div class="card reveal"><h3>✨ AI assistant</h3><p>OpenAI API for listing text and price suggestions.</p></div>
+      <div class="card reveal"><h3>💳 Payments</h3><p>Razorpay escrow with a 24-hour hold.</p></div>
+      <div class="card reveal"><h3>🗺️ Location</h3><p>Google Maps API for local search within 15 km.</p></div>
+      <div class="card reveal"><h3>🔔 Comms</h3><p>Firebase, SMS/OTP and AWS SES.</p></div>
+    </div>
+    <div class="card reveal" style="margin-top:20px;background:var(--blue-l);border-color:var(--indigo-l)">
+      <h3>🔬 Exploratory: 3D LiDAR &amp; repair circularity</h3>
+      <p>TrueDepth and LiDAR sensors capture point clouds to measure dent depth and frame warping against CAD references. Partnerships with local 3D-print hubs could replace broken covers, clips and battery doors on demand (PETG/TPU).</p>
+    </div>
+  </div>
+</section>
+
+<!-- ROADMAP + IPR -->
+<section class="alt" id="roadmap">
+  <div class="wrap grid g2" style="gap:50px">
+    <div class="reveal">
+      <span class="eyebrow">Roadmap · 2026</span>
+      <h2>Work breakdown</h2>
+      <div class="timeline">
+        <div class="tl"><div class="when">Jan – Mar · 3 months</div><h3>Feasibility &amp; concept</h3><p>Market surveys, persona profiling and C-BOM technical architecture.</p></div>
+        <div class="tl"><div class="when">Mar – Jul · 4 months</div><h3>MVP platform build</h3><p>Figma UI/UX, Flutter mobile code, Node.js APIs and OpenCV pipeline.</p></div>
+        <div class="tl"><div class="when">Jul – Aug · 1 month</div><h3>Testing &amp; campus pilot</h3><p>Pilot launch at MIT-ADT University campus.</p></div>
+        <div class="tl" style="padding-bottom:0"><div class="when">Aug – Dec · 5 months</div><h3>Regional scaling</h3><p>Expansion across Pune &amp; PCMC tech corridors.</p></div>
+      </div>
+    </div>
+    <div class="reveal">
+      <span class="eyebrow">IPR &amp; compliance</span>
+      <h2>Protected &amp; compliant</h2>
+      <div class="card" style="margin-top:20px"><h3>©️ Copyright (Form XIV)</h3><p>Filed with DPIIT. Diary No. <b>LD-49836/2026-CO</b>, filed 23/10/2026. Literary / software work.</p></div>
+      <div class="card" style="margin-top:16px"><h3>™️ Trademark</h3><p>Word mark "Sell My Stuff" filed under Class 35 (online marketplace), Class 9 (app software) and Class 42 (SaaS hosting).</p></div>
+      <div class="card" style="margin-top:16px"><h3>⚖️ Regulatory</h3><p>IT Act Section 79 safe-harbour and DPDP Act 2023 data-privacy compliance.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- TEAM -->
+<section id="team">
+  <div class="wrap">
+    <div class="center reveal">
+      <span class="eyebrow">The team</span>
+      <h2>S-1 · Group B</h2>
+      <p class="lead">Department of Aerospace Engineering, School of Engineering &amp; Sciences, MIT-ADT University, Pune.</p>
+    </div>
+    <div class="grid g4" id="teamGrid" style="margin-top:44px"></div>
+    <div class="strip reveal">
+      <div><strong>Vision</strong><span>A transparent secondary marketplace where every buyer purchases pre-owned goods with confidence and trust.</span></div>
+      <div><strong>Mission</strong><span>Empower buyers and sellers with a standardized, reliable system that verifies condition and authenticity.</span></div>
+    </div>
+  </div>
+</section>
+
+<section style="padding-top:0">
+  <div class="wrap">
+    <div class="cta-band reveal">
+      <h2>Buy. Sell. Reuse.</h2>
+      <p>Join the MIT-ADT campus pilot and help build India's most trusted circular marketplace.</p>
+      <a href="#demo" class="btn btn-p">Try the demo again</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="grid">
+      <div><div class="logo" style="color:#fff;margin-bottom:10px"><span class="logo-mark">SMS</span>SellMyStuff</div><p>Verified peer-to-peer re-commerce marketplace. "Give your stuff a new story — Buy, Sell, Reuse."</p></div>
+      <div><h4>Domain</h4><p>Re-commerce &amp; circular economy<br>SDG 12 · Responsible Consumption</p></div>
+      <div><h4>Course</h4><p>23MEC2902: Innovation, Entrepreneurship &amp; Idea Lab<br>Team A-02 · S-1 Group B</p></div>
+    </div>
+    <div class="copy">© 2026 SellMyStuff (SMS) · MIT-ADT University, Pune · Student project</div>
+  </div>
+</footer>
+
+<script>
+// Team
+const team=[
+ ["Janhavi Bhojwani","CEO"],["Kushan N. Chaudhari","CTO & IPR Lead"],["Ishan Shrikant More","CSO"],
+ ["Bhumika K. Raipurkar","CFO"],["Divyan Dwivedi","CMO"],["Omkar Sunil Pawar","Customer Insights & UX"],
+ ["Kartik Gamne","Legal & Compliance"],["Harshvardhan Desai","Cloud & C-BOM"],["Idris Taher Ratlamwala","AI & Vision"],
+ ["Harshada N. Gorde","Industry Analysis"]];
+const cols=["#2563eb","#16a34a","#7c3aed","#db2777","#ea580c","#0891b2","#4f46e5","#059669","#9333ea","#0284c7"];
+document.getElementById('teamGrid').innerHTML=team.map(([n,r],i)=>{
+  const w=n.split(' '),ini=w[0][0]+w[w.length-1][0];
+  return `<div class="card member reveal"><div class="av" style="background:${cols[i]}">${ini}</div><h3>${n}</h3><p>${r}</p></div>`}).join('');
+
+// Reveal on scroll
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:.12});
+document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+const bio=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.querySelectorAll('i').forEach(b=>b.style.height=b.dataset.h+'%');bio.disconnect()}}));
+document.querySelectorAll('#bars i').forEach(b=>b.style.height='0');
+bio.observe(document.getElementById('bars'));
+
+// Demo
+const cat=document.getElementById('cat'),vf=document.getElementById('vf'),out=document.getElementById('out');
+cat.onchange=()=>document.getElementById('vfEmoji').textContent=cat.value.split('|')[1];
+const fmt=n=>'₹'+Math.round(n).toLocaleString('en-IN');
+document.getElementById('scanBtn').onclick=function(){
+  const btn=this;btn.disabled=true;btn.textContent='Scanning with YOLOv8…';vf.classList.add('scanning');
+  out.innerHTML='<div class="empty">🔍 Detecting scratches, dents and wear…</div>';
+  setTimeout(()=>{
+    vf.classList.remove('scanning');btn.disabled=false;btn.textContent='Scan again';
+    const [key,emo,base]=cat.value.split('|');
+    const age=Math.max(0,Math.min(15,+document.getElementById('age').value||0));
+    const issues=[...document.querySelectorAll('.checks input:checked')];
+    let score=10-age*0.35-issues.reduce((s,c)=>s+ +c.value,0)+(Math.random()*0.4-0.2);
+    score=Math.max(1,Math.min(10,score));score=Math.round(score*10)/10;
+    const grade=score>=8.5?['Excellent','#16a34a']:score>=7?['Very good','#2563eb']:score>=5?['Good','#d97706']:['Fair','#dc2626'];
+    const depr=Math.max(.2,1-age*0.12);
+    const fair=base*depr*(0.45+score*0.055);
+    const fee=fair*0.025;
+    const id='DPP-'+key.slice(0,3).toUpperCase()+'-'+Math.random().toString(36).slice(2,8).toUpperCase();
+    const pct=score*10;
+    out.innerHTML=`<div class="dpp">
+      <div class="dpp-h"><div><small>DIGITAL PRODUCT PASSPORT</small><b>${id}</b></div><div style="font-size:1.8rem">${emo}</div></div>
+      <div class="dpp-b">
+        <div class="gauge"><div class="ring" style="background:conic-gradient(${grade[1]} ${pct}%,#e2e8f0 0)"><div>${score}<small>/ 10</small></div></div>
+        <div><div style="font-weight:800;font-size:1.2rem;color:${grade[1]}">${grade[0]}</div><div style="font-size:.85rem;color:var(--muted)">AI condition grade · OpenCV + YOLOv8</div></div></div>
+        <div class="kv"><span>Defects detected</span><b>${issues.length?issues.map(i=>i.dataset.n).join(', '):'None'}</b></div>
+        <div class="kv"><span>AI fair price</span><b>${fmt(fair*0.95)} – ${fmt(fair*1.05)}</b></div>
+        <div class="kv"><span>Platform fee (2.5%)</span><b>${fmt(fee)}</b></div>
+        <div class="kv"><span>A buyback hub would pay</span><b style="color:var(--red)">${fmt(fair*0.6)}</b></div>
+        <div class="kv"><span>You keep with SMS</span><b style="color:var(--green)">${fmt(fair-fee)}</b></div>
+        <div class="escrow" style="margin-top:14px">🔒 Buyer payment held in Razorpay escrow for 24 hours of inspection</div>
+      </div></div>`;
+  },1800);
+};
+</script>
+</body>
+</html>
